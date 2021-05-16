@@ -1,0 +1,89 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Belle",
+      "avatar": "https://i.insider.com/58caab3e7d1fb21a008b4574?width=1136&format=jpeg"
+    },
+    {
+      "id": 2,
+      "username": "Cinderella",
+      "avatar": "https://pbs.twimg.com/media/EeC829dVAAAMVWn.jpg"
+    }
+  ],
+  "toDos": [
+    {
+      "id": 1,
+      "title": "Talk to the Tea Pot",
+      "completed": true,
+      "userId": 1,
+      "tag": [
+        "important",
+        "urgent"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Learn to dance",
+      "completed": true,
+      "userId": 1,
+      "tag": [
+        "important",
+        "ASAP"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Save father",
+      "completed": false,
+      "userId": 1,
+      "tag": [
+        "sooner or later"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Wash the dishes",
+      "completed": false,
+      "userId": 2,
+      "tag": [
+        "sooner or later",
+        "whatever"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Wash the clothes",
+      "completed": true,
+      "userId": 2,
+      "tag": [
+        "sooner or later"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Buy pumpkin",
+      "completed": false,
+      "userId": 2,
+      "tag": [
+        "important",
+        "urgent"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Feed Jerry",
+      "completed": true,
+      "userId": 2,
+      "tag": [
+        "important"
+      ]
+    }
+  ],
+  "tags": [
+    "sooner or later",
+    "urgent",
+    "important",
+    "whatever"
+  ]
+}
