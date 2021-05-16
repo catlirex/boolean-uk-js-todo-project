@@ -250,10 +250,75 @@ function runPage(){
                     tagsArray = tags
                     displayFilter(users, tags)
                     displayTodoList()   
+                    displayNewTaskForm()
                 })
         })  
 
     displayTableHeader()
 }
+
+function displayNewTaskForm (){
+    let formSection = document.querySelector(".todo-form")
+
+    let taskForm = document.createElement("form")
+    taskForm.setAttribute("id","create-task-form")
+    formSection.prepend(taskForm)
+
+    let h2El = document.createElement("h2")
+    h2El.innerText = "[ Add New Task ]"
+
+    let userLabel = document.createElement("label")
+    userLabel.setAttribute("for","user")
+    userLabel.innerText = "Who are you?"
+
+    let selectUser = document.createElement("select")
+    selectUser.setAttribute("id","user")
+    selectUser.setAttribute("name", "user")
+
+    let emptyOption = document.createElement("option")
+    emptyOption.setAttribute("value", "")
+    emptyOption.innerText = "Select your account"
+
+    selectUser.append(emptyOption)
+
+    for(user of usersArray){
+        let userOption = document.createElement("option")
+        userOption.setAttribute("value", user.username)
+        userOption.innerText = user.username
+        selectUser.append(userOption)
+    }
+
+    let titleLabel = document.createElement("label")
+    titleLabel.setAttribute("for","title")
+    titleLabel.innerText = "Task"
+
+    let titleInput = document.createElement("input")
+    titleInput.setAttribute("id", "title")
+    titleInput.setAttribute("name", "title")
+    titleInput.setAttribute("type", "text")
+
+    let tagPara = document.createElement("p")
+    tagPara.innerText = "Select Tag"
+
+    taskForm.append(h2El, userLabel, selectUser, titleLabel, titleInput, tagPara)
+
+    for (tag of tagsArray){
+        let divEl = document.createElement("div")
+
+        let tagBox = document.createElement("input")
+        tagBox.setAttribute("id", tag)
+        tagBox.setAttribute("name", tag)
+        tagBox.setAttribute("value", tag)
+        tagBox.setAttribute("type", "checkbox")
+
+        let tagLabel = document.createElement("label")
+        tagLabel.setAttribute("for",tag)
+        tagLabel.innerText = tag
+
+        divEl.append(tagBox,tagLabel)
+        taskForm.append(divEl)
+    }
+}
+
 
 runPage()

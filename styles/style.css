@@ -7,6 +7,13 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
 /* header */
 .header {
   height: 30vh;
@@ -88,7 +95,7 @@ h2 {
   width: 100px;
 
   position: absolute;
-  background-color: rgb(246, 239, 180);
+  background-color: rgb(166, 228, 228);
   box-shadow: 2px 2px 2px lightgray;
   border-radius: 10px;
   border-top-left-radius: 0px;
@@ -110,7 +117,7 @@ li {
   cursor: default;
 
   position: absolute;
-  background-color: rgb(246, 239, 180);
+  background-color: rgb(166, 228, 228);
   box-shadow: 2px 2px 2px lightgray;
   border-radius: 10px;
   border-top-left-radius: 0px;
@@ -167,4 +174,23 @@ li.completed {
 
 .hidden {
   display: none;
+}
+
+.todo-form {
+  padding: 20px 0;
+}
+
+#create-task-form {
+  display: grid;
+  grid-gap: 10px;
+  place-content: center;
+
+  padding: 20px 0;
+
+  background-color: rgb(166, 228, 228);
+  border-radius: 10px;
+}
+
+label {
+  padding: 0 10px;
 }
