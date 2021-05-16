@@ -318,6 +318,12 @@ function displayNewTaskForm (){
         divEl.append(tagBox,tagLabel)
         taskForm.append(divEl)
     }
+
+    let formBtn = document.createElement("button")
+    formBtn.setAttribute("type","submit")
+    formBtn.innerText = "Add to list"
+
+    taskForm.append(formBtn)
 }
 
 
