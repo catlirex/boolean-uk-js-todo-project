@@ -249,8 +249,7 @@ function runPage(){
                 .then(function(tags){
                     tagsArray = tags
                     displayFilter(users, tags)
-                    displayTodoList()
-                    
+                    displayTodoList()   
                 })
         })  
 
