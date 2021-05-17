@@ -155,18 +155,24 @@ function displayTodoList (){
 }
     
 function createTodo(todo){
+    let todoOwner = usersArray.find(function(user){
+        return user.id === todo.userId
+    })
+
+    console.log(todoOwner)
+
     let todoContainer = document.createElement("li")
     todoContainer.setAttribute("class", "todo-item")
     todoContainer.setAttribute("id", todo.id)
 
     let avatar = document.createElement("img")
     avatar.setAttribute("class", "avatar")
-    avatar.setAttribute("src", user.avatar)
-    avatar.setAttribute("alt", user.username)
+    avatar.setAttribute("src", todoOwner.avatar)
+    avatar.setAttribute("alt", todoOwner.username)
 
     let usernamePara = document.createElement("p")
     usernamePara.setAttribute("class", "username")
-    usernamePara.innerText = user.username
+    usernamePara.innerText = todoOwner.username
 
     let todoTitle = document.createElement("p")
     todoTitle.setAttribute("class", "title")
@@ -342,10 +348,20 @@ function displayNewTaskForm (){
 
         let formComplete = validateTaskForm(newTodo)
 
-        if (formComplete===true) postNewTodo(newTodo)
+        if (formComplete===true) {
+            postNewTodo(newTodo)
+                .then(function(newTaskFromSever){
+                    
+                    let tableHeader = document.querySelector(".table-header")
+                    const todoItem = createTodo(newTaskFromSever)
+                    tableHeader.after(todoItem)  
+                    
+                    taskForm.reset()
+            })
+         }    
+    })   
 
-    })
-
+    
     let formBtn = document.createElement("button")
     formBtn.setAttribute("type","submit")
     formBtn.innerText = "Add to list"
@@ -354,15 +370,18 @@ function displayNewTaskForm (){
 }
 
 function postNewTodo(newTodo){
-
-    console.log(newTodo)
-    fetch("http://localhost:3000/toDos",{
+  return  fetch("http://localhost:3000/toDos",{
         method: "POST",
         headers:{
             "Content-Type": "application/json"
         },
         body: JSON.stringify(newTodo)
     })
+    .then(response => response.json())
+    .catch((error) => {
+            console.log(error)
+            alert("There is something wrong.....")
+          });       
 }
 
 function validateTaskForm(newTodo){
