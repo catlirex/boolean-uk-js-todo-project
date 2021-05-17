@@ -53,6 +53,14 @@ function displayUsernameFilter(usersArray){
     let userList = document.createElement("ul")
     userList.setAttribute("class", "user-list option")
 
+    let allUserEl = document.createElement("li")
+    allUserEl.innerText = "All"
+    userList.append(allUserEl)
+
+    allUserEl.addEventListener("click", function(){
+        filterByName(allUserEl.innerText)
+        })
+
     for (user of usersArray){
         let usernameEl = document.createElement("li")
         usernameEl.innerText = user.username
@@ -69,21 +77,28 @@ function displayUsernameFilter(usersArray){
 }
 
 function filterByName(toFilterUsername){
-   
-    for (user of usersArray){
-        if (user.username !== toFilterUsername){
-            for (todo of user.toDos){
-                let toHideItem = document.getElementById(`${todo.id}`) 
-                toHideItem.classList.add("hidden")
-            }
+    if(toFilterUsername === "All"){
+        for(todo of todosArray){
+            let toShowItem = document.getElementById(`${todo.id}`) 
+                toShowItem.classList.remove("hidden")
         }
+    }
+    else{
+        for (user of usersArray){
+            if (user.username !== toFilterUsername){
+                for (todo of user.toDos){
+                    let toHideItem = document.getElementById(`${todo.id}`) 
+                    toHideItem.classList.add("hidden")
+                }
+            }
 
-        if (user.username === toFilterUsername){
-            for (todo of user.toDos){
-                let toHideItem = document.getElementById(`${todo.id}`) 
-                toHideItem.classList.remove("hidden")
+            if (user.username === toFilterUsername){
+                for (todo of user.toDos){
+                    let toShowItem = document.getElementById(`${todo.id}`) 
+                    toShowItem.classList.remove("hidden")
+                }
             }
-        }
+            }
     }
 }
 
@@ -97,6 +112,14 @@ function displayTagsFilter(tags){
 
     let tagList = document.createElement("ul")
     tagList.setAttribute("class", "tag-list option")
+
+    let allTagEl = document.createElement("li")
+    allTagEl.innerText = "All"
+    tagList.append(allTagEl)
+
+    allTagEl.addEventListener("click", function(){
+        filterByTag(allTagEl.innerText)
+    })
 
     for (tag of tags){
         let tagEl = document.createElement("li")
@@ -113,21 +136,41 @@ function displayTagsFilter(tags){
 }
 
 function filterByTag(toFilterTag){
-    for (user of usersArray){
-        for (todo of user.toDos){
-            
+    if(toFilterTag === "All"){
+        for(todo of todosArray){
+            let toShowItem = document.getElementById(`${todo.id}`) 
+                toShowItem.classList.remove("hidden")
+        }
+    }
+    else{
+        for (todo of todosArray){
             let toHideItem = document.getElementById(`${todo.id}`) 
             toHideItem.classList.add("hidden")
 
-              for(tag of todo.tag){
-                  
+                for(tag of todo.tag){
                   if (tag.toLowerCase() === toFilterTag.toLowerCase()){
-                    toHideItem.classList.remove("hidden")
-                  }
-              }
-        
+                  toHideItem.classList.remove("hidden")
+                }
+            }
         }
+
     }
+    
+    // for (user of usersArray){
+    //     for (todo of user.toDos){
+            
+    //         let toHideItem = document.getElementById(`${todo.id}`) 
+    //         toHideItem.classList.add("hidden")
+
+    //           for(tag of todo.tag){
+                  
+    //               if (tag.toLowerCase() === toFilterTag.toLowerCase()){
+    //                 toHideItem.classList.remove("hidden")
+    //               }
+    //           }
+        
+    //     }
+    // }
 }
 
 function displayTableHeader(){

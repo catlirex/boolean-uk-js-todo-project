@@ -194,3 +194,7 @@ li.completed {
 label {
   padding: 0 10px;
 }
+
+.todo-list {
+  margin: 20px 0;
+}
