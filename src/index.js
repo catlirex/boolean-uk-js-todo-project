@@ -1,5 +1,6 @@
 let tagsArray = []
 let usersArray = []
+let todosArray = []
 
 function getUsers(){
     return fetch("http://localhost:3000/users")
@@ -14,6 +15,17 @@ function getUsers(){
 
 function getTagsList(){
     return fetch("http://localhost:3000/tags")
+    .then(function(response){
+        return response.json()
+    })
+    .catch((error) => {
+        console.log(error)
+        alert("There is something wrong.....")
+    });
+}
+
+function getTodos(){
+    return fetch("http://localhost:3000/toDos")
     .then(function(response){
         return response.json()
     })
@@ -145,12 +157,11 @@ function displayTableHeader(){
 function displayTodoList (){
     let listContainer = document.querySelector(".list-container")
 
-    for (user of usersArray){
-        for(todo of user.toDos){
-            const todoItem = createTodo(todo)
-            listContainer.append(todoItem)
-        }
+    for(todo of todosArray){
+        const todoItem = createTodo(todo)
+        listContainer.append(todoItem)
     }
+
         
 }
     
@@ -255,8 +266,16 @@ function runPage(){
                 .then(function(tags){
                     tagsArray = tags
                     displayFilter(users, tags)
-                    displayTodoList()   
                     displayNewTaskForm()
+
+                    getTodos()
+                    .then(function(todos){
+                        todosArray = todos
+                        console.log(todosArray)
+                        displayTodoList() 
+                    })
+                      
+                    
                 })
         })  
 
@@ -355,7 +374,8 @@ function displayNewTaskForm (){
                     let tableHeader = document.querySelector(".table-header")
                     const todoItem = createTodo(newTaskFromSever)
                     tableHeader.after(todoItem)  
-                    
+
+                    todosArray.push(newTaskFromSever)
                     taskForm.reset()
             })
          }    
