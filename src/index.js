@@ -213,8 +213,6 @@ function createTodo(todo){
         return user.id === todo.userId
     })
 
-    console.log(todoOwner)
-
     let todoContainer = document.createElement("li")
     todoContainer.setAttribute("class", "todo-item")
     todoContainer.setAttribute("id", todo.id)
@@ -314,7 +312,6 @@ function runPage(){
                     getTodos()
                     .then(function(todos){
                         todosArray = todos
-                        console.log(todosArray)
                         displayTodoList() 
                     })
                       
@@ -329,7 +326,8 @@ function displayNewTaskForm (){
     let formSection = document.querySelector(".todo-form")
 
     let taskForm = document.createElement("form")
-    taskForm.setAttribute("id","create-task-form")
+    taskForm.setAttribute("id","create-task")
+    taskForm.setAttribute("class", "input-form")
     formSection.prepend(taskForm)
 
     let h2El = document.createElement("h2")
@@ -446,6 +444,44 @@ function postNewTodo(newTodo){
             alert("There is something wrong.....")
           });       
 }
+
+function displayNewUserForm(){
+    let newUserSection = document.querySelector(".newuser-form")
+    
+    let createUserForm = document.createElement("form")
+    createUserForm.setAttribute("id", "create-user")
+    createUserForm.setAttribute("class", "input-form")
+    newUserSection.append(createUserForm)
+
+    let h2El = document.createElement("h2")
+    h2El.innerText = "Add New User"
+
+    let newNameLabel = document.createElement("label")
+    newNameLabel.setAttribute("for", "username")
+    newNameLabel.innerText = "User Name"
+
+    let newNameInput = document.createElement("input")
+    newNameInput.setAttribute("id", "username")
+    newNameInput.setAttribute("name", "username")
+    newNameInput.setAttribute("type", "text")
+
+    let newAvatarLabel = document.createElement("label")
+    newAvatarLabel.setAttribute("for", "avatar")
+    newAvatarLabel.innerText = "Profile Image"
+
+    let newAvatarInput = document.createElement("input")
+    newAvatarInput.setAttribute("id", "avatar")
+    newAvatarInput.setAttribute("name", "avatar")
+    newAvatarInput.setAttribute("type", "text")
+
+    let submitUserBtn = document.createElement("button")
+    submitUserBtn.setAttribute("type", "submit")
+    submitUserBtn.innerText = "Create User"
+
+    createUserForm.append(h2El, newNameLabel, newNameInput, newAvatarLabel, newAvatarInput, submitUserBtn)
+}
+
+displayNewUserForm()
 
 function validateTaskForm(newTodo){
     if (newTodo.userId === ""){

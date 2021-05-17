@@ -176,11 +176,12 @@ li.completed {
   display: none;
 }
 
+.newuser-form,
 .todo-form {
   padding: 20px 0;
 }
 
-#create-task-form {
+.input-form {
   display: grid;
   grid-gap: 10px;
   place-content: center;
@@ -191,10 +192,12 @@ li.completed {
   border-radius: 10px;
 }
 
-label {
-  padding: 0 10px;
+.todo-list {
+  margin: 20px auto;
 }
 
-.todo-list {
-  margin: 20px 0;
+.functions-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 20px;
 }
