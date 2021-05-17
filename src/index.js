@@ -77,6 +77,8 @@ function displayUsernameFilter(usersArray){
 }
 
 function filterByName(toFilterUsername){
+    
+
     if(toFilterUsername === "All"){
         for(todo of todosArray){
             let toShowItem = document.getElementById(`${todo.id}`) 
@@ -313,6 +315,7 @@ function runPage(){
                     .then(function(todos){
                         todosArray = todos
                         displayTodoList() 
+                        displayNewUserForm()
                     })
                       
                     
@@ -410,13 +413,19 @@ function displayNewTaskForm (){
 
         if (formComplete===true) {
             postNewTodo(newTodo)
-                .then(function(newTaskFromSever){
+                .then(function(newTaskFromServer){
                     
                     let tableHeader = document.querySelector(".table-header")
-                    const todoItem = createTodo(newTaskFromSever)
+                    const todoItem = createTodo(newTaskFromServer)
                     tableHeader.after(todoItem)  
 
-                    todosArray.push(newTaskFromSever)
+                    for(user of usersArray){
+                        if(newTaskFromServer.userId === user.id){
+                            user.toDos.push(newTaskFromServer)
+                        }
+                    }
+                    
+                    todosArray.push(newTaskFromServer)
                     taskForm.reset()
             })
          }    
@@ -479,9 +488,74 @@ function displayNewUserForm(){
     submitUserBtn.innerText = "Create User"
 
     createUserForm.append(h2El, newNameLabel, newNameInput, newAvatarLabel, newAvatarInput, submitUserBtn)
+    
+    createUserForm.addEventListener("submit", function(event){
+        event.preventDefault()
+
+        const newUser = {
+            username: newNameInput.value,
+            avatar: newAvatarInput.value
+        }
+
+        let formComplete = validateUserForm(newUser)
+
+        if (formComplete === true) {
+            postNewUser(newUser)
+            .then(function(newUserFromSever){
+                
+                createUserForm.reset()
+
+                newUserFromSever.toDos = []
+                usersArray.push(newUserFromSever)
+                
+                let selectUser = document.querySelector("#user")
+                let userOption = document.createElement("option")
+                userOption.setAttribute("value", newUserFromSever.id)
+                userOption.innerText = newUserFromSever.username
+                selectUser.append(userOption)
+                
+                let userList = document.querySelector(".user-list")
+                let usernameEl = document.createElement("li")
+                usernameEl.innerText = newUserFromSever.username
+                userList.append(usernameEl)
+
+                usernameEl.addEventListener("click", function(){
+                filterByName(usernameEl.innerText)
+                })
+            })
+        
+        }
+    })
 }
 
-displayNewUserForm()
+function postNewUser(newUser){
+    return  fetch("http://localhost:3000/users",{
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+    })
+    .then(response => response.json())
+    .catch((error) => {
+            console.log(error)
+            alert("There is something wrong.....")
+          });      
+}
+
+function validateUserForm(newUser){
+    if (newUser.username === ""){
+        alert("Please enter username");
+    return false;
+    }
+
+    if (newUser.avatar === ""){
+        alert("Please enter profile image link");
+    return false;
+    }
+    
+    return true
+}
 
 function validateTaskForm(newTodo){
     if (newTodo.userId === ""){
