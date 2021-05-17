@@ -282,8 +282,9 @@ function displayNewTaskForm (){
     selectUser.append(emptyOption)
 
     for(user of usersArray){
+        
         let userOption = document.createElement("option")
-        userOption.setAttribute("value", user.username)
+        userOption.setAttribute("value", user.id)
         userOption.innerText = user.username
         selectUser.append(userOption)
     }
@@ -308,7 +309,6 @@ function displayNewTaskForm (){
         let tagBox = document.createElement("input")
         tagBox.setAttribute("id", tag)
         tagBox.setAttribute("name", tag)
-        tagBox.setAttribute("value", tag)
         tagBox.setAttribute("type", "checkbox")
 
         let tagLabel = document.createElement("label")
@@ -317,7 +317,34 @@ function displayNewTaskForm (){
 
         divEl.append(tagBox,tagLabel)
         taskForm.append(divEl)
+
+        
     }
+
+    taskForm.addEventListener("submit", function(event){
+        event.preventDefault()
+
+        let selectedTag = []
+        for (tag of tagsArray){
+            var check = document.getElementById(`${tag}`);
+            if (check.checked === true){
+                selectedTag.push(tag)
+            }
+        }
+        
+        const newTodo = {
+            title: titleInput.value,
+            completed: false,
+            userId: Number(selectUser.value),
+            tag: selectedTag
+        }
+        
+
+        let formComplete = validateTaskForm(newTodo)
+
+        if (formComplete===true) postNewTodo(newTodo)
+
+    })
 
     let formBtn = document.createElement("button")
     formBtn.setAttribute("type","submit")
@@ -326,5 +353,35 @@ function displayNewTaskForm (){
     taskForm.append(formBtn)
 }
 
+function postNewTodo(newTodo){
+
+    console.log(newTodo)
+    fetch("http://localhost:3000/toDos",{
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newTodo)
+    })
+}
+
+function validateTaskForm(newTodo){
+    if (newTodo.userId === ""){
+        alert("Please Select Account");
+    return false;
+    }
+
+    if (newTodo.title === ""){
+        alert("Task content must be filled out");
+    return false;
+    }
+
+    if( newTodo.tag.length === 0){
+        alert("Please select at least one tag");
+        return false;
+    }
+    
+    return true
+}
 
 runPage()
